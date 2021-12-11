@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class FileService {
@@ -19,5 +20,14 @@ public class FileService {
         }
 
         return content;
+    }
+
+    public void writeFile(String filename, List<String> lines) {
+        Path filePath = Paths.get("src/pl/edu/pbs/results/" + filename).toAbsolutePath();
+        try {
+            Files.write(filePath, lines);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
