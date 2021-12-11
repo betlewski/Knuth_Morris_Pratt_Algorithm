@@ -1,8 +1,8 @@
 package pl.edu.pbs;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -12,31 +12,55 @@ public class Main {
         SearchTextJava searchTextJava = new SearchTextJava();
         FileService fileService = new FileService();
 
-        String text = fileService.readFile("sars-cov-2-genome-sequence.txt");
-        String pattern = "CGGCT";
+        String filename = "sars-cov-2-genome-sequence.txt";
+        AlgorithmResult algorithmResult = new AlgorithmResult(filename);
 
-        Instant timeBeforeKMP = Instant.now();
-        List<Integer> kmpResults = kmpAlgorithm.runAlgorithm(text, pattern);
-        Instant timeAfterKMP = Instant.now();
-        System.out.println("\nWyniki algorytmu KMP:");
-        System.out.println(kmpResults.stream()
-                .map(String::valueOf).collect(Collectors.joining("-")));
-        System.out.println(Duration.between(timeBeforeKMP, timeAfterKMP).toMillis());
+        String text = fileService.readFile(filename);
+        List<String> patterns = Arrays.asList("CGGCT",
+                "AGGAGCTGGT",
+                "CATATCAGCATCTATAGTAGCTGGTGGTATTGTAGCTATCGTAGTAACAT",
+                "GAGAAGGCATTAAAATATTTGCCTATAGATAAATGTAGTAGAATTATACCTGCACGTGCTCGTGTAGAGTGTTTTGATAAATTCAAAGTGAATTCAACAT",
+                "TAGCTGCATTTCACCAAGAATGTAGTTTACAGTCATGTACTCAACATCAACCATATGTAGTTGATGACCCGTGTCCTATTCACTTCTATTCTAAATGGTATATTAGAGTAGGAGCTAGAAAATCAGCACCTTTAATTGAATTGTGCGTGGATGAGGCTGGTTCTAAATCACCCATTCAGTACATCGATATCGGTAATTATACAGTTTCCTGTTTACCTTTTACAATTAATTGCCAGGAACCTAAATTGGGTAGTCTTGTAGTGCGTTGTTCGTTCTATGAAGACTTTTTAGAGTATCATGACGTTCGTGTTGTTTTAGATTTCATCTAAACGAACAAACTAAAATGTCTGATAATGGACCCCAAAATCAGCGAAATGCACCCCGCATTACGTTTGGTGGACCCTCAGATTCAACTGGCAGTAACCAGAATGGAGAACGCAGTGGGGCGCGATCAAAACAACGTCGGCCCCAAGGTTTACCCAATAATACTGCGTCTTGGT");
+        algorithmResult.addHeader(patterns);
 
-        Instant timeBeforeIndexOf = Instant.now();
-        List<Integer> indexOfResults = searchTextJava.checkIndexOfResults(text, pattern);
-        Instant timeAfterIndexOf = Instant.now();
-        System.out.println("\nWyniki indexOf():");
-        System.out.println(indexOfResults.stream()
-                .map(String::valueOf).collect(Collectors.joining("-")));
-        System.out.println(Duration.between(timeBeforeIndexOf, timeAfterIndexOf).toMillis());
+        List<Long> timesKMPAlgorithm = new ArrayList<>();
+        List<Long> timesIndexOf = new ArrayList<>();
 
-        System.out.println("\nPorównanie wyników:");
-        if (kmpResults.equals(indexOfResults)) {
-            System.out.println("ZGODNE");
-        } else {
-            System.out.println("NIEZGODNE");
+        for (int i = 0; i < patterns.size(); i++) {
+            String pattern = patterns.get(i);
+            System.out.println("Wyniki dla wzorca (" + pattern.length() + "): " + pattern);
+
+            long startKMPAlgorithm = System.nanoTime();
+            List<Integer> kmpResults = kmpAlgorithm.runAlgorithm(text, pattern);
+            long finishKMPAlgorithm = System.nanoTime();
+            long timeKMPAlgorithm = finishKMPAlgorithm - startKMPAlgorithm;
+            timesKMPAlgorithm.add(timeKMPAlgorithm);
+            System.out.println("\nWyniki algorytmu KMP:");
+            System.out.println(kmpResults.stream()
+                    .map(String::valueOf).collect(Collectors.joining("-")));
+            System.out.println("Czas: " + timeKMPAlgorithm + " ns");
+
+            long startIndexOf = System.nanoTime();
+            List<Integer> indexOfResults = searchTextJava.checkIndexOfResults(text, pattern);
+            long finishIndexOf = System.nanoTime();
+            long timeIndexOf = finishIndexOf - startIndexOf;
+            timesIndexOf.add(timeIndexOf);
+            System.out.println("\nWyniki indexOf():");
+            System.out.println(indexOfResults.stream()
+                    .map(String::valueOf).collect(Collectors.joining("-")));
+            System.out.println("Czas: " + timeIndexOf + " ns");
+
+            System.out.println("\nPorównanie wyników:");
+            if (kmpResults.equals(indexOfResults)) {
+                System.out.println("ZGODNE");
+            } else {
+                System.out.println("NIEZGODNE");
+            }
         }
-    }
 
+        algorithmResult.addLine(timesKMPAlgorithm);
+        algorithmResult.addLine(timesIndexOf);
+
+        fileService.writeFile(algorithmResult.getFilename(), algorithmResult.getLines());
+    }
 }
