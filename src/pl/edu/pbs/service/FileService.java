@@ -1,4 +1,4 @@
-package pl.edu.pbs;
+package pl.edu.pbs.service;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FileService {
-    public String readFile(String filename) {
-        Path filePath = Paths.get("src/pl/edu/pbs/data/" + filename).toAbsolutePath();
+    public String readFile(String path) {
+        Path filePath = Paths.get(path).toAbsolutePath();
         String content = "";
         try {
             content = Files.readAllLines(filePath)
@@ -22,8 +22,8 @@ public class FileService {
         return content;
     }
 
-    public void writeFile(String filename, List<String> lines) {
-        Path filePath = Paths.get("src/pl/edu/pbs/results/" + filename).toAbsolutePath();
+    public void writeFile(String path, List<String> lines) {
+        Path filePath = Paths.get(path).toAbsolutePath();
         try {
             Files.write(filePath, lines);
         } catch (IOException e) {

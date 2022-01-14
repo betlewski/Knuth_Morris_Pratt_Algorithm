@@ -1,4 +1,4 @@
-package pl.edu.pbs;
+package pl.edu.pbs.algorithm;
 
 import java.util.ArrayList;
 import java.util.List;
