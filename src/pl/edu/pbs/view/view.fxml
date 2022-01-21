@@ -1,74 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.pbs.controller.Controller">
-   <children>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-         <children>
-            <Label text="Ścieżka do pliku z danymi:">
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="14.0" />
-               </font>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.pbs.controller.Controller">
+    <VBox alignment="CENTER" prefHeight="800.0" prefWidth="1500.0">
+        <HBox prefHeight="100.0" prefWidth="200.0">
+            <VBox.margin>
+                <Insets bottom="5.0" top="20.0"/>
+            </VBox.margin>
+            <Label prefWidth="900.0" text="Ścieżka do pliku z danymi:">
+                <font>
+                    <Font size="15.0"/>
+                </font>
+                <HBox.margin>
+                    <Insets left="10.0"/>
+                </HBox.margin>
+                <padding>
+                    <Insets left="20.0"/>
+                </padding>
             </Label>
-            <HBox prefHeight="30.0" prefWidth="800.0">
-               <children>
-                  <TextField fx:id="pathToFileLabel" prefHeight="30.0" prefWidth="720.0">
-                     <HBox.margin>
-                        <Insets left="10.0" right="10.0" />
-                     </HBox.margin></TextField>
-                  <ImageView fx:id="fileChooserBtn" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@folder.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets left="10.0" right="10.0" />
-                     </HBox.margin>
-                  </ImageView>
-               </children>
-            </HBox>
-            <Label text="Szukany wzorzec:">
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="14.0" />
-               </font>
+            <Label prefWidth="500.0" text="Szukany wzorzec:">
+                <font>
+                    <Font size="15.0"/>
+                </font>
             </Label>
-            <TextField fx:id="searchPatternLabel">
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" />
-               </VBox.margin>
+        </HBox>
+        <HBox prefHeight="100.0" prefWidth="1500.0">
+            <VBox.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" />
+            </VBox.margin>
+            <TextField fx:id="pathToFileLabel" prefHeight="40.0" prefWidth="800.0">
+                <HBox.margin>
+                    <Insets left="10.0" right="10.0" top="5.0" />
+                </HBox.margin>
             </TextField>
-            <Button fx:id="searchBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="Szukaj" textAlignment="CENTER">
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
-               <font>
-                  <Font size="16.0" />
-               </font>
+            <ImageView fx:id="fileChooserBtn" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                <HBox.margin>
+                    <Insets left="10.0" right="50.0" />
+                </HBox.margin>
+                <Image url="@folder.png" />
+            </ImageView>
+            <TextField fx:id="searchPatternLabel" prefHeight="40.0" prefWidth="500.0">
+                <HBox.margin>
+                    <Insets left="10.0" right="10.0" top="5.0" />
+                </HBox.margin>
+            </TextField>
+            <Button fx:id="searchBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefWidth="100.0" text="Szukaj" textAlignment="CENTER">
+                <font>
+                    <Font size="16.0" />
+                </font>
+            <HBox.margin>
+               <Insets right="20.0" />
+            </HBox.margin>
             </Button>
-            <Label text="Wyniki:">
-               <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="10.0" />
-               </VBox.margin>
+        </HBox>
+        <HBox prefHeight="1000.0" prefWidth="1500.0">
+            <VBox.margin>
+                <Insets bottom="10.0" right="10.0" top="10.0" />
+            </VBox.margin>
+            <VBox prefHeight="500.0" prefWidth="300.0">
+                <HBox.margin>
+                    <Insets bottom="20.0" left="20.0" right="10.0" top="10.0" />
+                </HBox.margin>
+                <Label text="Knuth-Morris-Pratt">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="kmpTimeField" editable="false" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" promptText="Czas trwania">
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                    </VBox.margin>
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="15.0" />
                </font>
-            </Label>
-            <TextArea fx:id="resultsLabel" maxHeight="1.7976931348623157E308" prefHeight="400.0" wrapText="true">
-               <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" />
-               </VBox.margin>
-            </TextArea>
-         </children>
-      </VBox>
-   </children>
+                </TextField>
+                <TextArea fx:id="kmpResultsText" editable="false" maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="200.0" promptText="Wynik" wrapText="true" />
+            </VBox>
+            <BarChart fx:id="chart" prefHeight="800.0" prefWidth="1000.0" title="Rozkład statystyczny znaków">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" />
+                </yAxis>
+            <HBox.margin>
+               <Insets top="10.0" />
+            </HBox.margin>
+            </BarChart>
+            <VBox prefHeight="500.0" prefWidth="300.0">
+                <HBox.margin>
+                    <Insets bottom="20.0" left="20.0" right="10.0" top="10.0" />
+                </HBox.margin>
+                <Label alignment="CENTER" contentDisplay="CENTER" text="indexOf (Java)">
+                    <font>
+                        <Font size="15.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="indexOfTimeField" editable="false" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" promptText="Czas trwania">
+                    <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                    </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+                </TextField>
+                <TextArea fx:id="indexOfResultsText" editable="false" maxHeight="1.7976931348623157E308" prefHeight="800.0" prefWidth="200.0" promptText="Wynik" wrapText="true" />
+            </VBox>
+        </HBox>
+    </VBox>
 </StackPane>

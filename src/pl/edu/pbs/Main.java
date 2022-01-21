@@ -17,6 +17,7 @@ public class Main extends Application {
         controller.setStage(primaryStage);
         primaryStage.setTitle("Knuth Morris Pratt Algorithm");
         primaryStage.setScene(new Scene(root));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 
